@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - user_service
+      - task_service
+      - notification_service
+
+  user_service:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.user
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=development
+
+  task_service:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.task
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=development
+
+  notification_service:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.notification
+    ports:
+      - "5003:5003"
+    environment:
+      - FLASK_ENV=development
